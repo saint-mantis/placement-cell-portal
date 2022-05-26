@@ -3,14 +3,134 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
 </head>
+<style>
+    body{
+        background-color: #f5f5f5;
+
+    }
+    .main{
+        display:flex;
+        flex-direction:column;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+    }
+    .formone{
+        justify-content: center;
+        align-items: center;
+        display:flex;
+        background-color: white;
+        width: 500px;
+        height: 200px;
+        border-radius: 10px;
+
+    }
+    .formtwo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        gap: 150px;
+    }
+    .tableone{
+        display:flex;
+        flex-direction:row;
+        justify-content: center;
+        align-items: center;
+
+        width: 500px;
+        height: 450px;
+    }
+    .tabletwo{
+        display:flex;
+        flex-direction:row;
+        justify-content: center;
+        align-items: center;
+
+
+        width: 500px;
+        height: 450px;
+
+    }
+    .heading{
+        font-size: 30px;
+        margin-left: 50px;
+        margin-top: 20px;
+        
+
+    }
+</style>
 <body>
-    welcome
+   <h1 class="heading"> <b>Hello</b> {{username}} 👋 ,</h1>
+<div class="main">
+<div class="formone">
     <form action="apply" method="post">
-        {% csrf_token %}
-        {{form}}
-        <button>Submit</button>
+<div>
+    <center>
+    {% csrf_token %}
+    {{form}}
+    <br>
+   <p style="color: red;"> {{msg}}</p>
+</center>
+</div>
+<div>
+    <br>
+    <center>
+   
+        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Submit</button>
+    </center>
+    </div>
+
+        
     </form>
+</div>
+
+<div class="formtwo">
+
+<div id="tableone" class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">
+                Companies you have Applied</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in internships %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4">{{i}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+     </table>
+</div>
+
+<div id = "tabletwo" class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">
+            Available Companies
+        </th>
+    
+        </tr>
+        </thead>
+        <tbody>
+        {% for companyname in available %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4">{{companyname.companyname}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+     </table>
+ 
+
+</div>
+</div>
+</div>
 </body>
 </html>

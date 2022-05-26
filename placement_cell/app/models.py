@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+import django_tables2 as tables
+
 # Create your models here.
 class Students(models.Model):
     name = models.CharField(max_length=100)

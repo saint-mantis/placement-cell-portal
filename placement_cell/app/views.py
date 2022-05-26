@@ -1,7 +1,26 @@
+from urllib import response
 from django.shortcuts import render,redirect
 from .models import Students,Companies
-from .forms import StudentsForm,LoginForm,CompanyForm,AddComapany
-namearray = []
+from .forms import StudentsForm,LoginForm,CompanyForm,AddComapany,Available
+import django_tables2 as tables
+from django.http import HttpResponse
+from django.core import serializers
+import json
+import csv
+from django.conf import settings
+from pathlib import Path
+import os
+import pandas as pd
+
+
+
+
+id = []
+sessionid = []
+listvar = []
+user = []
+
+
 
 def home(request):
 
@@ -10,52 +29,48 @@ def home(request):
         email = request.POST['email']
         phone = request.POST['phone']
         password = request.POST['password']
-        model = Students.objects.create(name=name,password=password,email=email,phone=phone)
+        internship = ['none']
+        model = Students.objects.create(name=name,password=password,email=email,phone=phone,internship=internship)
         model.save()
-
+        print("student added successful")
 
     form = StudentsForm()
     context = {
-               'form': form}
+               'form': form,
+               }
     return render(request, 'index.html',context )
 
 def login(request):
     if request.method == 'POST':
         name = request.POST['name']
-        namearray.append(name)
+        sessionid.clear()
+        id.clear()
+        id.append(name)
+        sessionid.append(name)
+        user.clear()
+        user.append(name)
+
         
-        print(f"array is {namearray}")
+        print(f"array is {id}")
         password = request.POST['password']
         model = Students.objects.filter(name=name,password=password)
 
         if name == 'admin' and password == 'admin':
             addcompany = AddComapany()
-            table = Students.objects.all()
-            #if request.method == 'POST':
-                #print(request.POST)
-                #companyinput = request.POST['addcompany']
-                #add = Companies.objects.create(companyname=companyinput)
-                #add.save()
-                #print("comapany added successful")
-
-            return render(request,'admin.html',{'table':table,'addcompany':addcompany})
+            sessionid.clear()
+            queryset=Students.objects.values('internship')
+            print(queryset)
+            return render(request,'admin.html',{'addcompany':addcompany})
 
         elif model:
-            
-            #row = Students.objects.get(name = "arun")
-            
-            #print(row.phone)
-            #emp.name = 'Somename'
-            #emp.save()
-            #array = ['test4','test5','test6']
-            #row.internship += array
-            #row.save()
-            #print(row.internship)
             return redirect('apply')
 
         else:
+            sessionid.clear()
+            msg="User not Found"
             context = {
-               'login': LoginForm}
+               'login': LoginForm(),
+               'msg':msg}
             return render(request,'login.html',context)
     context = {
                'login': LoginForm}
@@ -67,24 +82,44 @@ def apply(request):
         print(request.POST)
         add= request.POST['companyinput']
         print(add)
-        listvar = []
-        row = Students.objects.get(name = namearray[0])
-        listvar.append('default')
-        row.internship =listvar
-        row.save()
         listvar.clear()
         listvar.append(add)
         print(listvar)
-        print(namearray)
-        #print(namearray[0])
-        row = Students.objects.get(name = namearray[0])
-        testarray=['test1','test2','test3']
-        row.internship +=listvar
-        row.save()
-        namearray.clear()
-
-
-    return render(request,'home.html',{'form':form})
+        print(id)
+        authenticate = Companies.objects.filter(companyname=add)
+        if authenticate:
+            row = Students.objects.get(name = id[0])
+            row.internship +=listvar
+            row.save()
+            form = CompanyForm()
+            row = Students.objects.get(name = sessionid[0])
+            internships = row.internship
+            for i in internships:
+                if "none" in internships:
+                    internships.remove("none")
+            print(internships)
+            available = Companies.objects.values('companyname')
+            username = user[0]
+            return render(request,'home.html',{'form':form,'internships':internships,'available':available,'username':username})
+        else:
+            msg = "company not found"
+            row = Students.objects.get(name = sessionid[0])
+            internships = row.internship
+            available = Companies.objects.values('companyname')
+            form = CompanyForm()
+            username = user[0]
+            return render(request,'home.html',{'form':form,'msg':msg,'internships':internships,'available':available,'username':username})
+    print(f'session id is {sessionid}')
+    row = Students.objects.get(name = sessionid[0])
+    internships = row.internship
+    for i in internships:
+        if "none" in internships:
+            internships.remove("none")
+    print(internships)
+    print(f'companies are {internships}')
+    available = Companies.objects.values('companyname')
+    username = user[0]
+    return render(request,'home.html',{'form':form,'internships':internships,'available':available,'username':username})
 
 
 def company(request):
@@ -98,23 +133,24 @@ def company(request):
     addcompany = AddComapany()
     return render(request,'admin.html',{'msg':msg,'addcompany':addcompany})
 
+def download(request):
+    if request.method == 'POST':
+        students = Students.objects.all()
+        response = HttpResponse('text/csv')
+        response['Content-Disposition'] = 'attachment; filename=students.csv'
+        writer = csv.writer(response)
+        writer.writerow(['name','email','phone','password','internship'])
+        for student in students:
+            writer.writerow([student.name,student.email,student.phone,student.password,student.internship])
+        return response
+    addcompany = AddComapany()
+    return render(request,'admin.html',{'addcompany':addcompany})
 
 
 
 
 
 
-'''
 
-emp = Employee.objects.get(pk = emp_id)
-print(row.phone)
-emp.name = 'Somename'
-emp.save()
-'''
 
-     
-'''{% for name in data %}
-    
-        <p>{{name.name}}</p>
 
-    {% endfor %}'''

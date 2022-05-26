@@ -4,13 +4,68 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+
+body{
+    background-color: #f5f5f5;
+
+}
+.main-main{
+display: flex;
+flex-direction: column;
+ align-items: center;
+justify-content: center;
+}
+        
+.main{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    position: relative;
+    width: 500px;
+    height: 500px;
+    align-content: center;
+    justify-content: center;
+border-radius: 10px;
+margin-top: 100px;
+}
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.msg{
+    color: red;
+}
+
+    </style>
 </head>
 <body>
-    <form action="login" method="post">
-        {% csrf_token %}
-        {{login.name}}
-        {{login.password}}
-        <button>Login In</button>
-    </form>
+
+
+<div class="main-main">
+<div class="main">
+    <div class="form">
+        <form action="login" method="post" >
+            {% csrf_token %}
+            <center>
+        <div class="usr-psd">
+            {{login.name}} <br>
+            {{login.password}} <br> 
+        </div></center>
+        <center> <div class="msg"> {{msg}} <br> <br> </div></center>
+<div class="login">
+   <center> <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Login</button></center>
+
+</div>         
+        </form>
+    </div>
+
+</div>
+
+</div>
+
 </body>
 </html>

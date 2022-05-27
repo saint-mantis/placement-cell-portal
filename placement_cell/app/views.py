@@ -12,7 +12,7 @@ from pathlib import Path
 import os
 import pandas as pd
 
-
+#rgb(182, 226, 242)
 
 
 id = []
@@ -33,12 +33,19 @@ def home(request):
         model = Students.objects.create(name=name,password=password,email=email,phone=phone,internship=internship)
         model.save()
         print("student added successful")
-
+        msg = "User created Successfully, Login to Continue 👍"
+        form = StudentsForm()
+        context = {
+               'form': form,
+                'msg':msg
+               }
+        return render(request,'signup.html',context)
     form = StudentsForm()
     context = {
                'form': form,
+                
                }
-    return render(request, 'index.html',context )
+    return render(request, 'signup.html',context )
 
 def login(request):
     if request.method == 'POST':
@@ -67,7 +74,7 @@ def login(request):
 
         else:
             sessionid.clear()
-            msg="User not Found"
+            msg="Invalid username or password"
             context = {
                'login': LoginForm(),
                'msg':msg}
@@ -102,7 +109,7 @@ def apply(request):
             username = user[0]
             return render(request,'home.html',{'form':form,'internships':internships,'available':available,'username':username})
         else:
-            msg = "company not found"
+            msg = f"The Company {add} is not available"
             row = Students.objects.get(name = sessionid[0])
             internships = row.internship
             available = Companies.objects.values('companyname')
@@ -128,8 +135,8 @@ def company(request):
         print(companyinput)
         add = Companies.objects.create(companyname=companyinput)
         add.save()
-        print("comapany added successful")
-        msg = "comapany added successful"
+        print("comapany added successfully")
+        msg = "Comapany added Successfully"
     addcompany = AddComapany()
     return render(request,'admin.html',{'msg':msg,'addcompany':addcompany})
 
@@ -137,11 +144,11 @@ def download(request):
     if request.method == 'POST':
         students = Students.objects.all()
         response = HttpResponse('text/csv')
-        response['Content-Disposition'] = 'attachment; filename=students.csv'
+        response['Content-Disposition'] = 'attachment; filename=Student_Details.csv'
         writer = csv.writer(response)
         writer.writerow(['name','email','phone','password','internship'])
         for student in students:
-            writer.writerow([student.name,student.email,student.phone,student.password,student.internship])
+            writer.writerow([student.name,student.email,student.phone,student.address,student.internship])
         return response
     addcompany = AddComapany()
     return render(request,'admin.html',{'addcompany':addcompany})

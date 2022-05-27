@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body{
+            background-color: #f5f5f5;
+        }
+        .main{
+            display:flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+       
+            position: relative;
+
+  
+            
+        }
+        .form{
+            background-color: white;
+            display: flex;
+            width: 500px;
+            height: 500px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            margin-top: 10px;
+
+
+        }
+        .heading{
+            font-size: 30px;
+            font-weight: bold;
+
+        }
+        .head{
+    width: 100%;
+    height: 100px;
+
+
+
+
+        }
+        .caption{
+            float: left;
+            margin-top: 30px;
+            margin-left: 200px;
+            
+
+        }
+        .login{
+            float: right;
+            margin-top: 30px;
+            margin-right: 50px;
+
+            width: 100px;
+            height: 50px;
+
+        }
+        .Hello{
+            font-size: 35px;
+            position: absolute;
+            
+ 
+        }
+        #lgn{
+            position: absolute;
+            margin-right: 25px;
+            
+        }
+        .msg{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20px;
+            width: 600px;
+            color: green;
+
+
+
+        }
+        .mid{
+            display: flex;
+            width: 100%;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+
+        }
+        #sam{
+    width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <div class="caption">
+            <h1 class="Hello"><b>Hello</b> 😁 ,</h1>
+        </div>
+<form action="login">
+    <div class="login">
+        <button id="lgn" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Login</button>
+                </div>
+</form>
+    </div>
+<div class="mid">
+    <div class="msg">
+        {{msg}}
+     </div>
+</div>
+<div class="main">
+    <div class="form">
+        <form action="signup" method="post">
+            {% csrf_token %}
+  <center>
+    <h1 class="heading">Signup</h1> <br><br>
+    {{form.name}} <br>
+    {{form.email}} <br>
+    {{form.phone}} <br>
+    {{form.password}} <br>
+
+ <br>
+  </center>
+        <center>
+        <button type="submit" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">SignUp</button>
+
+        </center>
+        </form>
+    </div>
+</div>
+</body>
+</html>

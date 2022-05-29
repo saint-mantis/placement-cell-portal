@@ -33,7 +33,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: row;
+        flex-direction: column;
         gap: 150px;
     }
     .tableone{
@@ -50,8 +50,8 @@
         flex-direction:row;
         justify-content: center;
         align-items: center;
-        width: 500px;
-        height: 450px;
+        width: 100%;
+        height: auto;
 
     }
     .heading{
@@ -78,6 +78,58 @@
           height: 100px;
  
       }
+      .Companies{
+        display: flex;
+        flex-direction: row;
+        
+         
+      }
+      .card{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        height: auto;
+        margin-left: 50px;
+        margin-top: 50px;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 10px;
+            padding: 10px;
+            margin-top: 100px;
+          }
+    .base{
+        margin-left: 20px;
+        margin-top: 20px;
+        position: relative;
+        margin-bottom: 20px;
+
+    }
+    .hj{
+        font-size: 23px;
+        margin-top: 10px;
+    }
+    #main-grid{
+        margin-right: 50px;
+        margin-left: 20px;
+        margin-top: 20px;
+        position: relative;
+        margin-bottom: 20px;  
+ 
+
+    }
+    .jk{
+        font-size: 40px;
+        margin-top: 50px;
+        font-weight: bold;
+    }
 </style>
 <body>
 <header>
@@ -135,28 +187,36 @@
      </table>
 </div>
 
-<div id = "tabletwo" class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-6 py-3">
-            Available Companies
-        </th>
-    
-        </tr>
-        </thead>
-        <tbody>
-        {% for companyname in available %}
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td class="px-6 py-4">{{companyname.companyname}}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-     </table>
- 
 
 </div>
 </div>
 </div>
+
+
+<center>
+<h1 class="jk">Available Companies</h1>
+
+</center>
+<div id="main-grid"class="grid grid-cols-3 gap-1 auto-rows-auto"> 
+
+{% for companyname in available %}
+
+<div class="card">
+    <div class="top">
+       <h1 class="hj">{{companyname.companyname}}</h1>
+    </div>
+    <div class="base">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+        standard dummy text ever since the 1500s, when an unknown printer took a galley of
+         type and scrambled it to make a type specimen book.
+    </div>
+</div>
+
+{% endfor %}
+</div>
+<br>
+<br>
+<br>
 </body>
+
 </html>

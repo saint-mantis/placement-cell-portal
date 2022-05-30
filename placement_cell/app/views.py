@@ -111,10 +111,15 @@ def apply(request):
         else:
             msg = f"The Company {add} is not available"
             row = Students.objects.get(name = sessionid[0])
-            internships = row.internship
+            
             available = Companies.objects.values('companyname')
             form = CompanyForm()
             username = user[0]
+            internships = row.internship
+            for i in internships:
+                if "none" in internships:
+                    internships.remove("none")
+            print(internships)
             return render(request,'home.html',{'form':form,'msg':msg,'internships':internships,'available':available,'username':username})
     print(f'session id is {sessionid}')
     row = Students.objects.get(name = sessionid[0])
@@ -143,12 +148,12 @@ def company(request):
 def download(request):
     if request.method == 'POST':
         students = Students.objects.all()
-        response = HttpResponse('text/csv')
+        response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=Student_Details.csv'
         writer = csv.writer(response)
-        writer.writerow(['name','email','phone','password','internship'])
+        writer.writerow(['Name','Email','Phone','Applied Internships'])
         for student in students:
-            writer.writerow([student.name,student.email,student.phone,student.address,student.internship])
+            writer.writerow([student.name,student.email,student.phone,student.internship])
         return response
     addcompany = AddComapany()
     return render(request,'admin.html',{'addcompany':addcompany})

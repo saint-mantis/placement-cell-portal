@@ -107,6 +107,7 @@
           }
     .base{
         margin-left: 20px;
+        margin-right: 20px;
         margin-top: 20px;
         position: relative;
         margin-bottom: 20px;
@@ -125,10 +126,38 @@
  
 
     }
+    #main-grid-two{
+        margin-right: 50px;
+        margin-left: 20px;
+        margin-top: 0px;
+        position: relative;
+        margin-bottom: 20px;  
+    }
     .jk{
         font-size: 40px;
         margin-top: 50px;
         font-weight: bold;
+    }
+    .card-app{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        height: 50px;
+        margin-left: 50px;
+        margin-top: 50px;
+        border-radius: 10px;
+        color: white;
+        background-color: black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .top-app{
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 20px;
+margin-bottom: 30px;
     }
 </style>
 <body>
@@ -165,30 +194,21 @@
         
     </form>
 </div>
+<h1 class="jk">Applied Companies</h1>
+<div id="main-grid-two"class="grid grid-cols-6 gap-1 auto-rows-auto"> 
 
-<div class="formtwo">
+    {% for i in internships %}
+    
+    <div class="card-app">
+        <div class="top-app">
+           <h1 class="hj">{{i}}</h1>
+        </div>
 
-<div id="tableone" class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-6 py-3">
-                Companies you have Applied</th>
+    </div>
+    
+    {% endfor %}
+    </div>
 
-        </tr>
-    </thead>
-    <tbody>
-        {% for i in internships %}
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td class="px-6 py-4">{{i}}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-     </table>
-</div>
-
-
-</div>
 </div>
 </div>
 

@@ -94,7 +94,9 @@ def apply(request):
         print(listvar)
         print(id)
         authenticate = Companies.objects.filter(companyname=add)
+        row = Students.objects.get(name = sessionid[0])
         if authenticate:
+            none = ''
             row = Students.objects.get(name = id[0])
             row.internship +=listvar
             row.save()
@@ -109,9 +111,9 @@ def apply(request):
             username = user[0]
             return render(request,'home.html',{'form':form,'internships':internships,'available':available,'username':username})
         else:
+            none = ''
             msg = f"The Company {add} is not available"
             row = Students.objects.get(name = sessionid[0])
-            
             available = Companies.objects.values('companyname')
             form = CompanyForm()
             username = user[0]
@@ -119,19 +121,24 @@ def apply(request):
             for i in internships:
                 if "none" in internships:
                     internships.remove("none")
+                if len(internships) == 0:
+                    none = "You have not applied for any Internships yet 😐"
             print(internships)
-            return render(request,'home.html',{'form':form,'msg':msg,'internships':internships,'available':available,'username':username})
+            return render(request,'home.html',{'form':form,'msg':msg,'internships':internships,'available':available,'username':username,'none':none})
     print(f'session id is {sessionid}')
     row = Students.objects.get(name = sessionid[0])
     internships = row.internship
+    none = ''
     for i in internships:
         if "none" in internships:
             internships.remove("none")
+        if len(internships) == 0:
+            none = "You have not applied for any Internships yet 😐"
     print(internships)
     print(f'companies are {internships}')
     available = Companies.objects.values('companyname')
     username = user[0]
-    return render(request,'home.html',{'form':form,'internships':internships,'available':available,'username':username})
+    return render(request,'home.html',{'form':form,'internships':internships,'available':available,'username':username,'none':none})
 
 
 def company(request):
@@ -157,12 +164,3 @@ def download(request):
         return response
     addcompany = AddComapany()
     return render(request,'admin.html',{'addcompany':addcompany})
-
-
-
-
-
-
-
-
-

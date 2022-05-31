@@ -171,11 +171,13 @@ margin-bottom: 30px;
 </header>
   </div>
 <div class="main">
+
 <div class="formone">
     <form action="apply" method="post">
 <div>
     
     <center>
+     
         <p style="font-size:20px;">Apply for Internships or Placements </p> <br>
     {% csrf_token %}
     {{form}}
@@ -195,8 +197,9 @@ margin-bottom: 30px;
     </form>
 </div>
 <h1 class="jk">Applied Companies</h1>
+{{none}}
 <div id="main-grid-two"class="grid grid-cols-6 gap-1 auto-rows-auto"> 
-
+  
     {% for i in internships %}
     
     <div class="card-app">
